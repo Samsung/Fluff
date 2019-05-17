@@ -1,5 +1,3 @@
-#include "fuzz_target.h"
-#if FUZZ_DUKTAPE == 1
 #include "duktape.h"
 #include "javascript_interface.h"
 
@@ -8,7 +6,9 @@ using std::vector;
 
 static duk_context* ctx;
 
-void JavascriptInterface::Init() { ctx = duk_create_heap_default(); }
+void JavascriptInterface::Init(const char* execution_path) {
+  ctx = duk_create_heap_default();
+}
 
 void JavascriptInterface::Execute(
     const vector<unique_ptr<Instruction>>& instructions) {
@@ -17,5 +17,3 @@ void JavascriptInterface::Execute(
   }
   duk_destroy_heap(ctx);
 }
-
-#endif  // if FUZZ_DUKTAPE == 1

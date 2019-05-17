@@ -1,5 +1,3 @@
-#include "fuzz_target.h"
-#if DRY_RUN == 1
 #include "javascript_interface.h"
 
 #include <iostream>
@@ -9,7 +7,7 @@ using std::endl;
 using std::unique_ptr;
 using std::vector;
 
-void JavascriptInterface::Init() {}
+void JavascriptInterface::Init(const char *execution_path) {}
 
 void JavascriptInterface::Execute(
     const vector<unique_ptr<Instruction>> &instructions) {
@@ -17,5 +15,3 @@ void JavascriptInterface::Execute(
     cout << instr->Emit() << endl;
   }
 }
-
-#endif  // if DRY_RUN == 1

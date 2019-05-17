@@ -12,7 +12,7 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-void JavascriptInterface::Init() {}
+void JavascriptInterface::Init(const char* execution_path) {}
 
 void JavascriptInterface::Execute(
     const vector<unique_ptr<Instruction>>& instructions) {
