@@ -1,12 +1,12 @@
+#include "fuzz_target.h"
+#if FUZZ_JERRY == 1
 #include "javascript_interface.h"
-#include "jerry-core/include/jerryscript.h"
+#include "jerryscript.h"
 
 using std::unique_ptr;
 using std::vector;
 
-void JavascriptInterface::Init(const char* execution_path) {
-  jerry_init(JERRY_INIT_EMPTY);
-}
+void JavascriptInterface::Init() { jerry_init(JERRY_INIT_EMPTY); }
 
 void JavascriptInterface::Execute(
     const vector<unique_ptr<Instruction>>& instructions) {
@@ -22,3 +22,5 @@ void JavascriptInterface::Execute(
   }
   jerry_cleanup();
 }
+
+#endif  // if FUZZ_JERRY == 1

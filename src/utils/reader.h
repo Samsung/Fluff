@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "status.h"
+#include "utils/status.h"
 #include "yaml-cpp/yaml.h"
 
 // Generic interface for reading input char by char.

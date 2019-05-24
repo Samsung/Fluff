@@ -4,7 +4,10 @@
 #include <string>
 #include <vector>
 
+#include "yaml-cpp/yaml.h"
+
 #include "interfaces/builtins.h"
+#include "interfaces/fuzz_target.h"
 #include "interfaces/javascript_interface.h"
 #include "statements/instruction.h"
 #include "utils/identifier_register.h"
@@ -12,8 +15,6 @@
 #include "utils/reader.h"
 #include "utils/reader_file.h"
 #include "utils/status.h"
-#include "utils/variable_id_allocator_impl.h"
-#include "yaml-cpp/yaml.h"
 
 constexpr size_t kMaxFileSize = 2048;
 
@@ -45,7 +46,7 @@ int main(int argc, char **argv) {
     cerr << status.Message() << endl;
     return -1;
   }
-  IdentifierRegister identifier_register(&reader);
+  IdentifierRegister identifier_register;
   for (const auto &function : builtins::functions) {
     identifier_register.RegisterVariable(function);
     identifier_register.RegisterFunction(function);
@@ -57,7 +58,7 @@ int main(int argc, char **argv) {
     identifier_register.RegisterVariable(variable);
   }
   JavascriptInterface js_interface;
-  js_interface.Init(argv[0]);
+  js_interface.Init();
 #ifdef __AFL_HAVE_MANUAL_CONTROL
   __AFL_INIT();
 #endif  // ifdef __AFL_HAVE_MANUAL_CONTROL
@@ -73,11 +74,8 @@ int main(int argc, char **argv) {
   if (purity_byte > purity_byte_threshold) {
     parser.SetPureRun();
   }
-  VariableIdAllocatorImpl allocator;
   try {
-    while (parser
-               .GetInstruction(reader, &instructions, &identifier_register,
-                               &allocator)
+    while (parser.GetInstruction(reader, &instructions, &identifier_register)
                .Ok()) {
     }
     js_interface.Execute(instructions);
