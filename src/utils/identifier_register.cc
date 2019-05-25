@@ -1,6 +1,10 @@
+#include <string>
+
 #include "identifier_register.h"
 
 using std::string;
+
+IdentifierRegister::IdentifierRegister(Reader* reader) : reader(reader) {}
 
 void IdentifierRegister::RegisterVariable(const string& identifier) {
   if (variables_set_.find(identifier) == variables_set_.end()) {
@@ -23,11 +27,27 @@ void IdentifierRegister::RegisterMethod(const string& identifier) {
   }
 }
 
+void IdentifierRegister::RegisterArray(const string& identifier) {
+  if (arrays_set_.find(identifier) == arrays_set_.end()) {
+    arrays_.push_back(identifier);
+    arrays_set_.insert(identifier);
+  }
+}
+
 Status IdentifierRegister::GetVariable(size_t index, string* identifier) const {
   if (variables_.empty()) {
     return Status::Error("Variable set is empty.");
   }
-  *identifier = variables_.at(index % variables_.size());
+  if (IsArray(index)) {
+    CHECK_RET(GetArray(index, identifier));
+
+    char tab_index;
+    CHECK_RET(reader->GetChar(&tab_index));
+
+    *identifier = "(" + (*identifier) + ")[" + std::to_string(tab_index) + "]";
+  } else {
+    *identifier = variables_.at(index % variables_.size());
+  }
   return Status::OkStatus();
 }
 
@@ -45,4 +65,20 @@ Status IdentifierRegister::GetMethod(size_t index, string* identifier) const {
   }
   *identifier = methods_.at(index % methods_.size());
   return Status::OkStatus();
+}
+
+Status IdentifierRegister::GetArray(size_t index, string* identifier) const {
+  if (arrays_.empty()) {
+    return Status::Error("Array set is empty.");
+  }
+  *identifier = arrays_.at(index % arrays_.size());
+  return Status::OkStatus();
+}
+
+bool IdentifierRegister::IsArray(size_t index) const {
+  if (arrays_.empty()) {
+    return false;
+  }
+  string identifier = variables_.at(index % variables_.size());
+  return arrays_set_.find(identifier) != arrays_set_.end();
 }

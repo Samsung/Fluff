@@ -20,15 +20,25 @@ Parser::Parser(const YAML::Node &grammar) : grammar_(grammar) {}
 
 void Parser::SetPureRun() { pure_run_ = true; }
 
+static bool LooksLikeArrayLiteral(const string &expression) {
+  if (expression.length() == 0) {
+    return false;
+  }
+  if (expression[0] == '[' && expression[expression.length() - 1] == ']') {
+    return true;
+  }
+  return false;
+}
+
 Status Parser::GetInstruction(Reader &reader,
                               vector<unique_ptr<Instruction>> *instructions,
                               IdentifierRegister *identifier_register,
+                              VariableIdAllocator *allocator,
                               int max_recursion_depth) const {
   if (--max_recursion_depth < 0) {
     return Status::Error("Recursion too deep.");
   }
   char to_read;
-  VariableIdAllocatorImpl allocator;
 
   auto current_map = Clone(grammar_);
   // Deduce type of the new instruction.
@@ -41,7 +51,7 @@ Status Parser::GetInstruction(Reader &reader,
   // Even if we don't have enough data to finish an instruction we want to
   // add it the vector since it will be closed with default values.
   auto closure_status = GetInstructionClosure(
-      current_map.as<string>(), reader, &instruction, &allocator,
+      current_map.as<string>(), reader, &instruction, allocator,
       identifier_register, max_recursion_depth);
   if (!closure_status.Ok()) {
     instructions->push_back(move(instruction));
@@ -444,7 +454,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     auto status = Status::OkStatus();
     for (int instruction = 0; instruction < instruction_count; instruction++) {
       status = GetInstruction(reader, &try_instructions, identifier_register,
-                              max_recursion_depth);
+                              allocator, max_recursion_depth);
       if (!status.Ok()) {
         break;
       }
@@ -461,7 +471,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     vector<unique_ptr<Instruction>> catch_instructions;
     for (int instruction = 0; instruction < instruction_count; instruction++) {
       if (!GetInstruction(reader, &catch_instructions, identifier_register,
-                          max_recursion_depth)
+                          allocator, max_recursion_depth)
                .Ok()) {
         break;
       }
@@ -477,7 +487,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     vector<unique_ptr<Instruction>> finally_instructions;
     for (int instruction = 0; instruction < instruction_count; instruction++) {
       if (!GetInstruction(reader, &finally_instructions, identifier_register,
-                          max_recursion_depth)
+                          allocator, max_recursion_depth)
                .Ok()) {
         break;
       }
@@ -502,7 +512,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     for (int instruction = 0; instruction < instruction_count; instruction++) {
       expression_status =
           GetInstruction(reader, &while_instructions, identifier_register,
-                         max_recursion_depth);
+                         allocator, max_recursion_depth);
       if (!expression_status.Ok()) {
         break;
       }
@@ -521,8 +531,9 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
       instruction_count = 0;
     }
     vector<unique_ptr<Instruction>> instruction_initial;
-    auto get_instruction_status = GetInstruction(
-        reader, &instruction_initial, identifier_register, max_recursion_depth);
+    auto get_instruction_status =
+        GetInstruction(reader, &instruction_initial, identifier_register,
+                       allocator, max_recursion_depth);
     unique_ptr<Expression> expression_check;
     auto get_expression_1_status =
         GetExpression(reader, &expression_check, allocator, identifier_register,
@@ -533,8 +544,9 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
                       max_recursion_depth);
     vector<unique_ptr<Instruction>> for_instructions;
     for (int instruction = 0; instruction < instruction_count; instruction++) {
-      auto get_body_status = GetInstruction(
-          reader, &for_instructions, identifier_register, max_recursion_depth);
+      auto get_body_status =
+          GetInstruction(reader, &for_instructions, identifier_register,
+                         allocator, max_recursion_depth);
       if (!get_body_status.Ok()) {
         break;
       }
@@ -562,8 +574,9 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
                       max_recursion_depth);
     vector<unique_ptr<Instruction>> if_instructions;
     for (int instruction = 0; instruction < instruction_count; instruction++) {
-      auto get_instruction_status = GetInstruction(
-          reader, &if_instructions, identifier_register, max_recursion_depth);
+      auto get_instruction_status =
+          GetInstruction(reader, &if_instructions, identifier_register,
+                         allocator, max_recursion_depth);
       if (!get_instruction_status.Ok()) {
         break;
       }
@@ -593,7 +606,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     vector<unique_ptr<Instruction>> if_instructions;
     for (int instruction = 0; instruction < instruction_count; instruction++) {
       if (!GetInstruction(reader, &if_instructions, identifier_register,
-                          max_recursion_depth)
+                          allocator, max_recursion_depth)
                .Ok()) {
         break;
       }
@@ -601,7 +614,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     vector<unique_ptr<Instruction>> else_instructions;
     for (int instruction = 0; instruction < else_count; instruction++) {
       if (!GetInstruction(reader, &else_instructions, identifier_register,
-                          max_recursion_depth)
+                          allocator, max_recursion_depth)
                .Ok()) {
         break;
       }
@@ -627,6 +640,9 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
       identifier_register->RegisterFunction(definition->GetId());
     } else {
       identifier_register->RegisterVariable(definition->GetId());
+      if (LooksLikeArrayLiteral(expression->Emit())) {
+        identifier_register->RegisterArray(definition->GetId());
+      }
     }
     definition->SetExpression(move(expression));
     *instruction = move(definition);
@@ -643,6 +659,9 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
       identifier_register->RegisterFunction(definition->GetId());
     } else {
       identifier_register->RegisterVariable(definition->GetId());
+      if (LooksLikeArrayLiteral(expression->Emit())) {
+        identifier_register->RegisterArray(definition->GetId());
+      }
     }
     definition->SetExpression(move(expression));
     *instruction = move(definition);
@@ -659,6 +678,9 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
       identifier_register->RegisterFunction(definition->GetId());
     } else {
       identifier_register->RegisterVariable(definition->GetId());
+      if (LooksLikeArrayLiteral(expression->Emit())) {
+        identifier_register->RegisterArray(definition->GetId());
+      }
     }
     definition->SetExpression(move(expression));
     *instruction = move(definition);
@@ -716,7 +738,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     }
     vector<unique_ptr<Instruction>> instructions;
     for (int i = 0; i < instruction_count; i++) {
-      if (!GetInstruction(reader, &instructions, identifier_register,
+      if (!GetInstruction(reader, &instructions, identifier_register, allocator,
                           max_recursion_depth)
                .Ok()) {
         break;
@@ -749,7 +771,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
       vector<unique_ptr<Instruction>> instructions;
       for (int i = 0; i < instruction_count; i++) {
         if (!GetInstruction(reader, &instructions, identifier_register,
-                            max_recursion_depth)
+                            allocator, max_recursion_depth)
                  .Ok()) {
           break;
         }
@@ -883,7 +905,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
       instruction_count = 0;
     }
     for (int instruction = 0; instruction < instruction_count; instruction++) {
-      if (!GetInstruction(reader, &instructions, identifier_register,
+      if (!GetInstruction(reader, &instructions, identifier_register, allocator,
                           max_recursion_depth)
                .Ok()) {
         break;
@@ -904,7 +926,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     }
     identifier_register->RegisterVariable("arg0");
     for (int instruction = 0; instruction < instruction_count; instruction++) {
-      if (!GetInstruction(reader, &instructions, identifier_register,
+      if (!GetInstruction(reader, &instructions, identifier_register, allocator,
                           max_recursion_depth)
                .Ok()) {
         break;
@@ -950,7 +972,7 @@ Status Parser::GetInstructionClosure(const string &operation, Reader &reader,
     }
     vector<unique_ptr<Instruction>> instructions;
     for (int i = 0; i < instruction_count; i++) {
-      if (!GetInstruction(reader, &instructions, identifier_register,
+      if (!GetInstruction(reader, &instructions, identifier_register, allocator,
                           max_recursion_depth)
                .Ok()) {
         break;

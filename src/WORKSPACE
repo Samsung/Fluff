@@ -1,0 +1,23 @@
+new_local_repository(
+    name = "njs",
+    build_file = "njs.BUILD",
+    path = "/home/build/njs",
+)
+
+new_local_repository(
+    name = "duktape",
+    build_file = "duktape.BUILD",
+    path = "/usr/lib/duktape/",
+)
+
+new_local_repository(
+    name = "jerryscript",
+    build_file = "jerryscript.BUILD",
+    path = "/home/build/jerryscript/",
+)
+
+new_local_repository(
+    name = "v8",
+    build_file = "v8.BUILD",
+    path = "/home/build/v8/",
+)

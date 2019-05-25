@@ -1,7 +1,7 @@
 #ifndef VARIABLE_ID_ALLOCATOR_H_
 #define VARIABLE_ID_ALLOCATOR_H_
 
-#include "utils/status.h"
+#include "status.h"
 
 #include <string>
 

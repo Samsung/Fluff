@@ -8,8 +8,6 @@
   6: Break
   7: Continue
   8: TryCatchFinally
-  9: LetDeclaration
-  10: ConstDeclaration
 1:
   0: Addition
   1: Subtraction
@@ -68,3 +66,4 @@
   28: Getter
   29: Setter
   30: ShortIf
+  31: Lambda
