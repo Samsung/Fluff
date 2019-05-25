@@ -12,7 +12,10 @@
 #include "utils/identifier_register.h"
 #include "utils/parser.h"
 #include "utils/status.h"
+<<<<<<< HEAD
 #include "utils/variable_id_allocator_impl.h"
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 
 using testing::_;
 using testing::Invoke;
@@ -100,7 +103,11 @@ class ParserTest : public ::testing::Test {
   virtual void SetUp() {
     characters_read = 0;
     instructions.clear();
+<<<<<<< HEAD
     identifier_register = new IdentifierRegister(&reader);
+=======
+    identifier_register = new IdentifierRegister();
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
     parser = new Parser(node);
   }
 
@@ -109,7 +116,10 @@ class ParserTest : public ::testing::Test {
     delete parser;
   }
 
+<<<<<<< HEAD
   VariableIdAllocatorImpl allocator;
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   YAML::Node node = YAML::Load(kYamlGrammar);
   Parser *parser;
   ReaderMock reader;
@@ -137,10 +147,15 @@ TEST_F(ParserTest, BooleanFalse) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "false");
 }
@@ -155,10 +170,15 @@ TEST_F(ParserTest, BooleanTrue) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "true");
 }
@@ -168,10 +188,15 @@ TEST_F(ParserTest, Integer) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "66");
 }
@@ -181,10 +206,15 @@ TEST_F(ParserTest, Real) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "2.3");
 }
@@ -194,10 +224,15 @@ TEST_F(ParserTest, SimpleArray) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "[1, 2, 7]");
 }
@@ -207,10 +242,15 @@ TEST_F(ParserTest, Null) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "NULL");
 }
@@ -220,10 +260,15 @@ TEST_F(ParserTest, Addition) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1+2)");
 }
@@ -233,10 +278,15 @@ TEST_F(ParserTest, Subtraction) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1-2)");
 }
@@ -246,10 +296,15 @@ TEST_F(ParserTest, Multiplication) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1*2)");
 }
@@ -259,10 +314,15 @@ TEST_F(ParserTest, Division) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1/2)");
 }
@@ -272,10 +332,15 @@ TEST_F(ParserTest, LeftShift) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1<<2)");
 }
@@ -285,10 +350,15 @@ TEST_F(ParserTest, RightShiftSigned) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1>>2)");
 }
@@ -298,10 +368,15 @@ TEST_F(ParserTest, RightShiftUnsigned) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "(1>>>2)");
 }
@@ -311,10 +386,15 @@ TEST_F(ParserTest, LoopWhile) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "while (true) {\n1;\n}\n");
 }
@@ -325,6 +405,7 @@ TEST_F(ParserTest, Variable) {
     return ReaderMockHelper(characters_read, input, c);
   }));
 
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
@@ -336,6 +417,15 @@ TEST_F(ParserTest, Variable) {
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+  EXPECT_EQ(instructions.size(), 1);
+  EXPECT_EQ(instructions[0]->Emit(), "var v0=NULL");
+
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 2);
   EXPECT_EQ(instructions[1]->Emit(), "(v0)");
 }
@@ -348,10 +438,15 @@ TEST_F(ParserTest, TryCatchFinally) {
     return ReaderMockHelper(characters_read, input, c);
   }));
 
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(),
             "try {\nNULL;\n} catch (v0) "
@@ -364,10 +459,15 @@ TEST_F(ParserTest, Getter) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "{get: function () {\nNULL;\n}}");
 }
@@ -377,10 +477,15 @@ TEST_F(ParserTest, Setter) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(),
             "{set: function (arg0) {\nreturn (arg0);\n}}");
@@ -391,10 +496,15 @@ TEST_F(ParserTest, VariableDeclAndArray) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "var v0=[1, 2]");
 }
@@ -404,10 +514,15 @@ TEST_F(ParserTest, LetDeclAndArray) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "let v0=[1, 2]");
 }
@@ -417,10 +532,15 @@ TEST_F(ParserTest, ConstDeclAndArray) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "const v0=[1, 2]");
 }
@@ -430,10 +550,15 @@ TEST_F(ParserTest, ShortIf) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "1 ? 2 : 3");
 }
@@ -443,10 +568,15 @@ TEST_F(ParserTest, CorruptedIf) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "if b (NULL) {\nNULL;\n}\n");
 }
@@ -456,10 +586,15 @@ TEST_F(ParserTest, FunctionDefinition) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(), "function v0(arg0) {\nreturn NULL;\n}");
 }
@@ -470,10 +605,15 @@ TEST_F(ParserTest, Lambda) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
   EXPECT_EQ(instructions[0]->Emit(),
             "console.log((arg0) => {\nreturn NULL;\n})");
@@ -485,10 +625,15 @@ TEST_F(ParserTest, PureRun) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   EXPECT_TRUE(parser
                   ->GetInstruction(reader, &instructions, identifier_register,
                                    &allocator)
                   .Ok());
+=======
+  EXPECT_TRUE(
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   EXPECT_EQ(instructions.size(), 1);
 }
 
@@ -499,10 +644,15 @@ TEST_F(ParserTest, PPID) {
   EXPECT_CALL(reader, GetChar(_)).WillRepeatedly(Invoke([&](char *c) -> Status {
     return ReaderMockHelper(characters_read, input, c);
   }));
+<<<<<<< HEAD
   while (parser
              ->GetInstruction(reader, &instructions, identifier_register,
                               &allocator)
              .Ok()) {
+=======
+  while (
+      parser->GetInstruction(reader, &instructions, identifier_register).Ok()) {
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   }
   EXPECT_EQ(instructions.size(), 5);
   EXPECT_EQ(instructions[0]->Emit(), "var v0=1");
@@ -522,6 +672,7 @@ TEST_F(ParserTest, PPID) {
   EXPECT_EQ(instructions.size(), 0);
 }*/
 
+<<<<<<< HEAD
 TEST_F(ParserTest, ArrayDeclareAccess) {
   string input =
       "\x00\x04\x04\x04\x03\x04\x03\x03\x65\x66\x67\x04\x00\x05\x04\x02\x01\x00\x01\x05\x12\x12"s;
@@ -538,6 +689,8 @@ TEST_F(ParserTest, ArrayDeclareAccess) {
   EXPECT_EQ(instructions[1]->Emit(), "((v0)[18])");
 }
 
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

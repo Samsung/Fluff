@@ -12,7 +12,11 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
+<<<<<<< HEAD
 void JavascriptInterface::Init(const char* execution_path) {}
+=======
+void JavascriptInterface::Init() {}
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 
 void JavascriptInterface::Execute(
     const vector<unique_ptr<Instruction>>& instructions) {

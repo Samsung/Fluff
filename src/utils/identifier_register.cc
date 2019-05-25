@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 #include <string>
 
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 #include "identifier_register.h"
 
 using std::string;
 
+<<<<<<< HEAD
 IdentifierRegister::IdentifierRegister(Reader* reader) : reader(reader) {}
 
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 void IdentifierRegister::RegisterVariable(const string& identifier) {
   if (variables_set_.find(identifier) == variables_set_.end()) {
     variables_.push_back(identifier);
@@ -27,6 +33,7 @@ void IdentifierRegister::RegisterMethod(const string& identifier) {
   }
 }
 
+<<<<<<< HEAD
 void IdentifierRegister::RegisterArray(const string& identifier) {
   if (arrays_set_.find(identifier) == arrays_set_.end()) {
     arrays_.push_back(identifier);
@@ -34,10 +41,13 @@ void IdentifierRegister::RegisterArray(const string& identifier) {
   }
 }
 
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 Status IdentifierRegister::GetVariable(size_t index, string* identifier) const {
   if (variables_.empty()) {
     return Status::Error("Variable set is empty.");
   }
+<<<<<<< HEAD
   if (IsArray(index)) {
     CHECK_RET(GetArray(index, identifier));
 
@@ -48,6 +58,9 @@ Status IdentifierRegister::GetVariable(size_t index, string* identifier) const {
   } else {
     *identifier = variables_.at(index % variables_.size());
   }
+=======
+  *identifier = variables_.at(index % variables_.size());
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   return Status::OkStatus();
 }
 
@@ -66,6 +79,7 @@ Status IdentifierRegister::GetMethod(size_t index, string* identifier) const {
   *identifier = methods_.at(index % methods_.size());
   return Status::OkStatus();
 }
+<<<<<<< HEAD
 
 Status IdentifierRegister::GetArray(size_t index, string* identifier) const {
   if (arrays_.empty()) {
@@ -82,3 +96,5 @@ bool IdentifierRegister::IsArray(size_t index) const {
   string identifier = variables_.at(index % variables_.size());
   return arrays_set_.find(identifier) != arrays_set_.end();
 }
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""

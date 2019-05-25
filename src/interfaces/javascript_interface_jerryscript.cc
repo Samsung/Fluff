@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 #include "javascript_interface.h"
 #include "jerry-core/include/jerryscript.h"
+=======
+#include "fuzz_target.h"
+#if FUZZ_JERRY == 1
+#include "javascript_interface.h"
+#include "jerryscript.h"
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 
 using std::unique_ptr;
 using std::vector;
 
+<<<<<<< HEAD
 void JavascriptInterface::Init(const char* execution_path) {
   jerry_init(JERRY_INIT_EMPTY);
 }
+=======
+void JavascriptInterface::Init() { jerry_init(JERRY_INIT_EMPTY); }
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 
 void JavascriptInterface::Execute(
     const vector<unique_ptr<Instruction>>& instructions) {
@@ -22,3 +33,8 @@ void JavascriptInterface::Execute(
   }
   jerry_cleanup();
 }
+<<<<<<< HEAD
+=======
+
+#endif  // if FUZZ_JERRY == 1
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""

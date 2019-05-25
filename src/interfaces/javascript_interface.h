@@ -12,7 +12,11 @@
 // (one for each target), only one of which will be enabled in each build.
 class JavascriptInterface {
  public:
+<<<<<<< HEAD
   void Init(const char* execution_path);
+=======
+  void Init();
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   void Execute(const std::vector<std::unique_ptr<Instruction>>& instructions);
 };
 

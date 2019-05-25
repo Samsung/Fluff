@@ -1,7 +1,11 @@
 #ifndef VARIABLE_ID_ALLOCATOR_H_
 #define VARIABLE_ID_ALLOCATOR_H_
 
+<<<<<<< HEAD
 #include "status.h"
+=======
+#include "utils/status.h"
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 
 #include <string>
 

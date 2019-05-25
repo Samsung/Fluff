@@ -1,7 +1,10 @@
 #include "fuzz_target.h"
 #if FUZZ_CHAKRA == 1
+<<<<<<< HEAD
 #include <csignal>
 #include <iostream>
+=======
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 #include <string>
 #include "ChakraCore.h"
 #include "javascript_interface.h"
@@ -26,13 +29,18 @@ static JsValueRef fname;
 static JsValueRef scriptSource;
 static unsigned currentSourceContext = 0;
 
+<<<<<<< HEAD
 void JavascriptInterface::Init(const char *execution_path) {
+=======
+void JavascriptInterface::Init() {
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
   FAIL_CHECK(JsCreateRuntime(JsRuntimeAttributeNone, nullptr, &runtime));
   FAIL_CHECK(JsCreateContext(runtime, &context));
   FAIL_CHECK(JsSetCurrentContext(context));
   FAIL_CHECK(JsCreateString("sample", string("sample").length(), &fname));
 }
 
+<<<<<<< HEAD
 void IgnoreSignal(int signal) {
   (void)signal;
   exit(0);
@@ -59,6 +67,24 @@ void JavascriptInterface::Execute(
     FAIL_CHECK(JsDisposeRuntime(runtime));
   } catch (...) {
   }
+=======
+void JavascriptInterface::Execute(
+    const vector<unique_ptr<Instruction>>& instructions) {
+  string code;
+  for (const auto& instr : instructions) {
+    code += instr->Emit() + ";\n";
+  }
+  FAIL_CHECK(JsCreateExternalArrayBuffer((void*)code.c_str(),
+                                         (unsigned int)code.length(), nullptr,
+                                         nullptr, &scriptSource));
+
+  FAIL_CHECK(JsRun(scriptSource, currentSourceContext++, fname,
+                   JsParseScriptAttributeNone, &result));
+
+  // Cleanup.
+  FAIL_CHECK(JsSetCurrentContext(JS_INVALID_REFERENCE));
+  FAIL_CHECK(JsDisposeRuntime(runtime));
+>>>>>>> parent of 0e0b3a7... Revert "Revert "Initial commit""
 }
 
 #endif  // FUZZ_CHAKRA == 1
