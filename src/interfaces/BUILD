@@ -72,8 +72,19 @@ cc_library(
 )
 
 cc_library(
+    name = "javascript_interface_mjs",
+    srcs = ["javascript_interface_mjs.cc"],
+    hdrs = ["javascript_interface.h"],
+    deps = [
+        "builtins",
+        "//statements:instruction",
+        "@mjs//:mjs_lib"
+    ]
+)
+
+cc_library(
     name = "builtins",
     hdrs = ["builtins.h", "builtins_chakra.h", "builtins_njs.h",
             "builtins_duktape.h", "builtins_espruino.h", "builtins_jerryscript.h",
-            "builtins_spidermonkey.h", "builtins_v8.h"]
+            "builtins_spidermonkey.h", "builtins_v8.h", "builtins_mjs.h"]
 )

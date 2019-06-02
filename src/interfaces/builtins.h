@@ -25,3 +25,7 @@
 #ifdef FUZZ_V8
 #include "builtins_v8.h"
 #endif  // ifdef FUZZ_V8
+
+#ifdef FUZZ_MJS
+#include "builtins_mjs.h"
+#endif  // ifdef FUZZ_MJS
