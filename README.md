@@ -31,7 +31,7 @@ Typical fuzzing setup:
 * Start fuzzing using `afl-fuzz`, for example: `afl-fuzz -m none -i in -o out ./fluff_njs @@ js_grammar.yaml`
 * (optional) you can use build container to run fuzzing, requires some manual work
 ```
-docker run -it -d -v path/to/fluff/repository/build:/home/build/fluff /bin/bash
+docker run -it -d -v path/to/fluff/repository/build:/home/build/fluff identifier /bin/bash
 docker exec -it container_number bash
 # afl-fuzz is preinstalled in /home/build/afl
 ```
