@@ -1,6 +1,6 @@
 #include <string>
 extern "C" {
-#include "njs/njs.h"
+#include <njs.h>
 }
 #include <cstdio>
 #include <cstring>
@@ -35,10 +35,10 @@ void JavascriptInterface::Execute(
   for (const auto& instr : instructions) {
     code += instr->Emit() + ";\n";
   }
-  nxt_int_t ret;
+  njs_int_t ret;
   u_char* start = (u_char*)code.c_str();
   ret = njs_vm_compile(vm, &start, start + code.length());
-  if (ret == NXT_OK) {
+  if (ret == NJS_OK) {
     ret = njs_vm_start(vm);
   }
   njs_vm_destroy(vm);
