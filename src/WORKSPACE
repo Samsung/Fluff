@@ -21,3 +21,9 @@ new_local_repository(
     build_file = "v8.BUILD",
     path = "/home/build/v8/",
 )
+
+new_local_repository(
+    name = "mjs",
+    build_file = "mjs.BUILD",
+    path = "/home/build/mjs/mjs/build"
+)

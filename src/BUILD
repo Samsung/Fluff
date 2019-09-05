@@ -166,3 +166,41 @@ cc_binary(
     ],
     defines = ["FUZZ_JERRYSCRIPT"]
 )
+
+cc_binary(
+    name = "fluff_mjs",
+    srcs = ["fluff.cc"],
+    linkopts = [
+        "-lyaml-cpp",
+        "-fsanitize=address",
+    ],
+    deps = [
+        "//utils:identifier_register",
+        "//statements:instruction",
+        "//interfaces:builtins",
+        "//interfaces:javascript_interface_mjs",
+        "//utils:parser",
+        "//utils:reader_file",
+        "//utils:status"
+    ],
+    defines = ["FUZZ_MJS"]
+)
+
+cc_binary(
+    name = "fluff_mjs_dry",
+    srcs = ["fluff.cc"],
+    linkopts = [
+        "-lyaml-cpp",
+        "-fsanitize=address",
+    ],
+    deps = [
+        "//utils:identifier_register",
+        "//statements:instruction",
+        "//interfaces:builtins",
+        "//interfaces:javascript_interface_dryrun",
+        "//utils:parser",
+        "//utils:reader_file",
+        "//utils:status"
+    ],
+    defines = ["FUZZ_MJS"]
+)

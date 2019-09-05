@@ -59,3 +59,15 @@ v8: check_folder build_base
 		v8 \
 		./fluff/docker/scripts/build_v8.sh
 
+mjs: check_folder build_base
+	@echo "[*] Building mjs images"
+	docker build -q \
+		-t mjs \
+		--build-arg ver=$(MJS_VERSION) \
+		-f docker/mjs.Dockerfile .
+	docker run \
+		--rm \
+		-v `pwd`:/home/build/fluff \
+		mjs \
+		./fluff/docker/scripts/build_mjs.sh
+
